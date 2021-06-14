@@ -1,0 +1,46 @@
+<div class="header mini">
+    <div class="layui-container header-content">
+        <div class="layui-row nav-header">
+            <div class="layui-col-xs9 layui-col-sm4">
+                    <a href="/"><img th:src="${settings.website_logo_small}" alt="" style="margin-top:-12px;height: 50px;margin-left: 10%;"></a>
+                <a class="logo" href="/" style="margin-left: 0;">
+<!--                    <i th:class="${settings.website_logo_fonticon}"></i>-->
+                    &nbsp;[[${settings.website_name}]]</a>
+                <small th:text="${settings.website_subtitle}"></small>
+            </div>
+            <div class="layui-col-xs3 layui-col-sm-offset2 layui-col-sm4 layui-hide-md layui-hide-lg nav-btn">
+                <a href="javascript:npfront.hideOpen();" id="side-nav-open"
+                   data-pushbar-target="bottomNav"><i class="fa fa-navicon"></i> </a>
+                <a href="javascript:npfront.hideClose();" id="side-nav-close" style="display: none;"
+                   data-pushbar-close><i class="fa fa-times" style="font-size: 18px;"></i> </a>
+            </div>
+            <div class="layui-col-sm5 layui-hide layui-show-lg-inline-block layui-show-md-inline-block nav-btn right">
+                <a href="/index" th:data-title="${settings.def_theme_conf.nav_menus.menu_home}" th:class="${cur eq 'index' ?'active':''}">
+                    <i class="layui-icon layui-icon-template-1"></i>
+                    <span th:text="${settings.def_theme_conf.nav_menus.menu_home}"></span>
+                </a>
+                <a th:if="${settings.def_theme_conf.zdy.url != null && settings.def_theme_conf.zdy.url != ''}" th:href="${settings.def_theme_conf.zdy.url}" th:data-title="${settings.def_theme_conf.zdy.name}" th:class="${cur eq 'zdy' ?'active':''}">
+                    <i th:class="${settings.def_theme_conf.zdy.icon}"></i>
+                    <span th:text="${settings.def_theme_conf.zdy.name}"></span>
+                </a>
+                <a href="/note" th:data-title="${settings.def_theme_conf.nav_menus.menu_note}" th:class="${cur eq 'note' ?'active':''}">
+                    <i class="layui-icon layui-icon-form"></i>
+                    <span th:text="${settings.def_theme_conf.nav_menus.menu_note}"></span>
+                </a>
+                <a href="/message" th:data-title="${settings.def_theme_conf.nav_menus.menu_message}" th:class="${cur eq 'message' ?'active':''}">
+                    <i class="layui-icon layui-icon-chat"></i>
+                    <span th:text="${settings.def_theme_conf.nav_menus.menu_message}"></span>
+                </a>
+                <a href="/purchase" th:data-title="${settings.def_theme_conf.nav_menus.menu_purchase}" th:class="${cur eq 'purchase' ?'active':''}">
+                    <i class="layui-icon layui-icon-cart-simple"></i>
+                    <span th:text="${settings.def_theme_conf.nav_menus.menu_purchase}"></span>
+                </a>
+                <a href="javascript:npfront.searchDialog();" data-title="搜索" th:class="${cur eq 'search' ?'active':''}">
+                    <i class="layui-icon layui-icon-search"></i>
+                    <span>搜索</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<hr class="header-hr">

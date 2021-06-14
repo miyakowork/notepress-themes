@@ -1,0 +1,63 @@
+/** Created By Wuwenbin https://wuwenbin.me
+ * mail to wuwenbinwork@163.com
+ * 欢迎加入我们，QQ群：697053454
+ * if you use the code,  please do not delete the comment
+ * 如果您使用了此代码，请勿删除此头部注释
+ * */
+#note-operate {
+    z-index: 999;
+    text-align: center;
+    padding: 10px;
+    bottom: auto;
+    top: 10px;
+    background: #F2F2F2;
+}
+
+#note-body .sticky {
+    margin-left: 15px;
+    border: 1px solid #ccc;
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1);
+    -webkit-box-sizing: border-box;
+}
+
+#note-body img {
+    max-width: 50%;
+    cursor: pointer;
+}
+
+#note-body img:not(.no-hover):hover {
+    cursor: pointer;
+    -webkit-box-shadow: 0 1px 3px rgb(26, 26, 26);
+    -moz-box-shadow: 0 1px 3px rgb(26, 26, 26);
+    box-shadow: 0 1px 3px rgb(26, 26, 26);
+}
+
+#noteMd {
+    line-height: 30px;
+    color: #999 !important;
+    word-break: break-all;
+    width: 100%;
+    display: inline;
+    background: inherit !important;
+}
+
+a.note-tag > span {
+    padding: 8px 10px;
+    border-radius: 4px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+a.note-tag:hover > span {
+    background: #F44336 !important;
+    color: #FFFFFF !important;
+}
+
+.layui-card-footer .datetime {
+    padding-top: 8px;
+    padding-bottom: 13px;
+    padding-right: 20px;
+    display: inline-block;
+}

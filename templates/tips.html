@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>提示</title>
+    <link rel="stylesheet" href="/static/def/plugins/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/def/css/layui-theme-nbv5.css">
+    <style>
+        body {
+            background: rgba(244, 242, 242, 0.39);
+            font-family: "Microsoft YaHei", Helvetica, "Meiryo UI", "Malgun Gothic", "Segoe UI", "Trebuchet MS", "Monaco", monospace, Tahoma, STXihei,
+            "华文细黑", STHeiti, "Helvetica Neue", "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
+        }
+
+        .tac {
+            text-align: center;
+        }
+
+        .primary-color {
+            color: #f44336 !important;
+        }
+
+        h1 {
+            margin-top: 7%;
+            margin-bottom: 20px;
+        }
+
+        hr {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .code {
+            font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
+            color: #f44336;
+        }
+
+        .layui-form-label {
+            width: 100px !important;
+        }
+
+        .layui-input-block {
+            margin-left: 150px !important;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-md12">
+            <h1 class="tac">温馨提示</h1>
+            <blockquote class="layui-elem-quote tac">
+                <p>程序初始化需（第一次）访问部署后台前端所在服务器（即部署 <span class="code">notepress-admin</span> 所在的服务器）</p>
+                <p>一般地址形如：<span class="code">http(s)://your.domain(:port)/notepress-admin/templates/init.html</span></p>
+            </blockquote>
+            <hr>
+            <fieldset class="layui-elem-field layui-col-md8 layui-col-md-offset2">
+                <legend>快速访问 - 后台初始化页面</legend>
+                <div class="layui-field-box">
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">访问模式</label>
+                            <div class="layui-input-inline" style="margin-left: 20px;">
+                                <input type="radio" name="schema" value="http" title="http" checked>
+                                <input type="radio" name="schema" value="https" title="https">
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">取决于你是否部署了SSL</div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">后台访问域名</label>
+                            <div class="layui-input-block">
+                                <input style="width: 80%;" type="text" name="domain" required lay-verify="required" placeholder="部署后台前端页面的服务器域名，如：admin.notepress.com" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">端口</label>
+                            <div class="layui-input-block" style="width: 100px;">
+                                <input type="number" name="port" required lay-verify="required" placeholder="访问端口" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit lay-filter="initPage">立即访问</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10" style="margin-top: 25px;">
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header"><span class="code">NotePress</span> 相关</div>
+                <div class="layui-card-body">
+                    <ul>
+                        <li>作者：<a href="https://wuwenbin.me" target="_blank"><span class="code">wuwenbin.me</span></a></li>
+                        <li>QQ群：<a href="https://jq.qq.com/?_wv=1027&k=FW2va3zt" target="_blank">点击加入【<span class="primary-color">697053454</span>】</a></li>
+                        <li>代码仓库 ：
+                            【<a href="https://gitee.com/miyakowork/notepress" target="_blank" class="primary-color">gitee</a>】
+                            【<a href="https://github.com/miyakowork/notepress" target="_blank" class="primary-color">github</a>】
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header"><span class="code">NotePress</span> 部署文档</div>
+                <div class="layui-card-body">
+                    <ul>
+                        <li>
+                            <blockquote class="layui-elem-quote" style="padding-top: 7px;padding-bottom: 8px;"><span class="code">NotePress</span> 代码是开源的，采用 GPLv3 协议</blockquote>
+                        </li>
+                        <li>部署文档：<a class="primary-color" href="https://wuwenbin.me/deployDoc" target="_blank">点我访问</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header"><span class="code">NotePress</span> 支持（付费/可选）</div>
+                <div class="layui-card-body">
+                    <ul>
+                        <li>定制・开发：<a href="https://qm.qq.com/cgi-bin/qm/qr?k=kmQkIWnRrW4g8sW46zcoTw7cHZdUzfOZ&jump_from=webapi" target="_blank" class="primary-color">点我进群联系群主</a></li>
+                        <li>赞赏：请作者喝一杯 Coffee！<br/>
+                            <span style="margin-left: 35px;"></span>【<span lay-tips="approveAlipay" class="primary-color" style="cursor:pointer;">支付宝</span>】
+                            【<span lay-tips="approveWechat" class="primary-color" style="cursor:pointer;">微信</span>】
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="approveAlipay" style="display: none;">
+    <img src="/static/assets/img/alipay.jpg" style="width: 100%;">
+</div>
+<div id="approveWechat" style="display: none;">
+    <img src="/static/assets/img/wechat_approve.png" style="width: 100%;">
+</div>
+<script src="/static/def/plugins/layui/layui.js"></script>
+<script>
+    layui.use(['form', 'jquery'], function () {
+        var form = layui.form;
+        var $ = layui.jquery;
+
+        //监听提交
+        form.on('submit(initPage)', function (data) {
+            var schema = data.field.schema;
+            var domain = data.field.domain;
+            var port = data.field.port;
+            var initUrl = schema + "://" + domain + ":" + port + "/notepress-admin/templates/init.html?main_site=" + location.protocol + "//" + location.host;
+            window.open(initUrl, "_blank");
+            return false;
+        });
+
+        $("span[lay-tips]").click(function () {
+            var $this = $(this);
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                area: ['300px', '300px'],
+                skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: $('#' + $this.attr("lay-tips"))
+            });
+        });
+
+    });
+</script>
+</body>
+</html>

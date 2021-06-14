@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" th:content="${contentAuthor}"/>
+    <meta name="description" th:content="${settings.seo_description}"/>
+    <meta name="keywords" th:content="${settings.seo_keywords}"/>
+    <link rel="shortcut icon" th:href="${settings.website_logo_small}">
+    <link rel="stylesheet" href="/static/def/plugins/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/def/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/def/plugins/animate/animate.min.css">
+    <link rel="stylesheet" href="/static/def/css/style.css">
+    <link rel="stylesheet" href="/static/def/css/layui-theme-nbv5.css">
+    <link rel="stylesheet" href="/static/def/plugins/pushbar/pushbar.css">
+    <link rel="stylesheet" href="/static/def/css/simple.css">
+    <link rel="stylesheet" href="/static/def/css/content.css">
+    <link rel="stylesheet" href="/static/def/css/ubs.css">
+    <title>[[${settings.website_name}]] 用户中心</title>
+</head>
+<body class="layui-anim layui-anim-fadein simple">
+<!--顶部导航栏-->
+<div th:replace="templates/def/fragment/header (cur='ubs')"></div>
+<!--顶部文字-->
+<div class="layui-container top-block">
+    <blockquote class="layui-elem-quote">
+        <span class="layui-breadcrumb">
+            <a href="/">网站首页</a>
+            <a href="/token/ubs">个人中心</a>
+        </span>
+        <div class="clock layui-show-md-inline-block layui-show-lg-inline-block layui-hide-xs layui-hide-sm">
+            <span class="clock-font">当前日期</span>：<span id="current-datetime"></span>
+        </div>
+    </blockquote>
+</div>
+
+<!--内容正体-->
+<div id="main-body" class="layui-container">
+
+    <div class="layui-row layui-col-space25">
+        <div class="layui-col-md3">
+            <div id="affix-side">
+
+                <div class="layui-card" id="info-panel">
+                    <div class="layui-card-body text-center" style="padding: 20px;">
+                        <a class="no-hover cursor" target="_self" id="user-avatar">
+                            <img th:src="${npsu.avatar}" class="layui-circle no-hover animated flipInX" style="width: 150px;height:150px;border: 1px solid #e6e5e5;" th:alt="${npsu.nickname}">
+                        </a>
+                        <p class="layui-text nbv5-font" style="margin: 10px;color: #F44336;"><i class="fa fa-vcard-o"></i>&nbsp;：<b>[[${npsu.nickname}]]</b></p>
+                        <hr>
+                        <b>登录地址/IP</b>： [[${npsu.lastLoginAddr eq null ? '-' : npsu.lastLoginAddr}]]（[[${npsu.lastLoginIp eq null ? '-' : npsu.lastLoginIp}]]）<br/>
+                        <b>登录时间</b>：[[${npsu.lastLoginTime eq null ? '-' : npsu.lastLoginTime}]]<br/>
+                    </div>
+                </div>
+
+                <div class="layui-card" id="search-panel">
+                    <div class="layui-card-body">
+                        <p class="title">搜索 <small style="float: right;">
+                            <a style="cursor: pointer;" onclick="aboutSearch1();" target="_blank"><i>关于 <i class="fa fa-info-circle"></i></i></a></small></p>
+                        <hr>
+                        <input name="words" onkeypress="searchAll1(event);" th:value="${s}"
+                               placeholder="键入Enter键以搜索" autocomplete="off" class="layui-input search-box">
+                    </div>
+                </div>
+
+                <div class="layui-card" id="cate-panel">
+                    <div class="layui-card-body">
+                        <p class="title">分类 </p>
+                        <hr>
+                        <div class="layui-btn-container">
+                            <a th:each="item : ${cateList}" th:href="${'/index?s='+s+'&cates='+item.id}" class="layui-btn layui-btn-primary layui-btn-sm" target="_blank">
+                                <i class="fa fa-reorder"></i>
+                                [[${item.nickname}]]
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-card layui-tags" id="tag-panel">
+                    <div class="layui-card-body">
+                        <p class="title">热门标签</p>
+                        <hr>
+                        <span th:each="item,index : ${tagList}" class="layui-badge-rim"><a th:href="${'/index?s='+s+'&tags='+item.id}" target="_blank">[[${item.dict_value}]] ([[${item.cnt}]])</a></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="layui-col-md9">
+            <div class="layui-card">
+                <div class="layui-card-header"><b><i class="fa fa-info-circle"></i> 基本信息</b></div>
+                <div class="layui-card-body user-info">
+                    <div class="layui-row layui-col-space20">
+                        <div class="layui-col-md6">
+                            <p class="layui-text ubs-item"><label><i class="fa fa-user-circle"></i> 昵称：</label><input class="layui-input layui-input-inline" th:value="${npsu.nickname}" name="nickname_" style="height: 28px;width: 50%;"> <a
+                                    href="javascript:updateNickname();">修改</a>
+                            </p>
+                            <p class="layui-text ubs-item"><label><i class="fa fa-sign-in"></i> 注册日期：</label><i><span th:text="${npsu.gmtCreate}"></span></i></p>
+                            <p class="layui-text ubs-item"><label><i class="fa fa-envelope-o"></i> 邮箱：</label><u style="cursor: pointer;" onclick="layer.msg('您的注册邮箱，暂不支持更换！')"><span th:text="${npsu.email}"></span></u></p>
+                        </div>
+                        <div class="layui-col-md6">
+                            <p class="layui-text ubs-item"><label><i class="fa fa-key"></i> 新密码：</label><input class="layui-input layui-input-inline" type="password" name="password_" style="height: 28px;width: 50%;"> <a
+                                    href="javascript:updatePwd();">修改</a>
+                            </p>
+                            <p class="layui-text ubs-item"><label><i class="fa fa-life-bouy"></i> 硬币：</label><span style="color: #f44336;"> [[${npsu.coin}]] </span><img src="/static/def/img/coin.svg" style="width: 20px;"> <a
+                                    class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"
+                                    href="javascript:getCoin();"><b>充值</b></a> <a href="javascript:sign4Coin();">签到</a>（随机获取1个硬币）</p>
+                            <p class="layui-text ubs-item"><label><i class="fa fa-cubes"></i> <a href="/res">资源站</a></label></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-header"><b><i class="fa fa-comments-o"></i> 我的评论 / 回复</b></div>
+                <div class="layui-card-body">
+                    <div class="layui-row layui-col-space25" id="my-comments">
+                    </div>
+                    <div class="layui-row text-center">
+                        <p id="my-comment-page"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="fa fa-shopping-cart"></i> 包含我购买的隐藏内容的文章</div>
+                <div class="layui-card-body">
+                    <div id="hide-list"></div>
+                </div>
+                <div class="layui-card-footer">
+                    <p id="my-hide-page"></p>
+                </div>
+            </div>
+
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="fa fa-shopping-cart"></i> 我的资源</div>
+                <div class="layui-card-body">
+                    <div id="purchase-list"></div>
+                </div>
+                <div class="layui-card-footer">
+                    <p id="my-purchase-page"></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div style="display: none;" id="dialog_auto">
+    <div class="layui-container dialog-title">
+        <p style="width: 500px;"><img th:src="${npsu.avatar}" class="layui-circle avatar"><label style="margin-left: 10px;">硬币充值（如遇问题，请联系站长[[${settings.admin_global_nickname}]]）</label><a
+                class="pull-right close-dialog" id="closeDialog" href="javascript:closeDialog();">x</a></p>
+    </div>
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this"><img src="/static/assets/img/alipay.png" alt="" style="width: 25px;margin-top: -3px;"> 支付宝（推荐，任意金额）</li>
+            <li><img src="/static/assets/img/wxpay.png" alt="" style="width: 25px;margin-top: -3px;"> 微信支付（金额限制）</li>
+        </ul>
+        <div class="layui-tab-content" style="height: 100px;padding: 30px;">
+            <div class="layui-tab-item layui-show animated fadeIn">
+                <div class="layui-row layui-col-space10">
+                    <div class="layui-col-md3 price">
+                        <div class="price-item price-alipay active" th:data-price="${#numbers.formatDecimal(100 / multiple,0,0)}">
+                            <p><span><i class="fa fa-rmb"></i> [[${#numbers.formatDecimal(100 / multiple,0,0)}]]</span> <small>元</small></p>
+                            <p>100 硬币</p>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3 price">
+                        <div class="price-item price-alipay" th:data-price="${#numbers.formatDecimal(500 / multiple,0,0)}">
+                            <p><span><i class="fa fa-rmb"></i> [[${#numbers.formatDecimal(500 / multiple,0,0)}]]</span> <small>元</small></p>
+                            <p>500 硬币</p>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3 price">
+                        <div class="price-item price-alipay" th:data-price="${#numbers.formatDecimal(1000 / multiple,0,0)}">
+                            <p><span><i class="fa fa-rmb"></i> [[${#numbers.formatDecimal(1000 / multiple,0,0)}]]</span> <small>元</small></p>
+                            <p>1000 硬币</p>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3 price">
+                        <div class="price-item price-alipay" data-input>
+                            <input type="text" class="layui-input" placeholder="任意整数金额" name="alipayPrice" min="1" max="1000" style="border: none;">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row layui-col-space25" style="margin-top: 15px; ">
+                    <div class="layui-col-xs4">
+                        <div class="layui-row text-center">
+                            <a class="cursor" style="font-size: 14px;font-style: normal;" id="createQrCode_alipay"><i class="fa fa-refresh"></i> 刷新付款码</a>
+                        </div>
+                        <hr>
+                        <div style="background-image: url('/static/assets/img/noqrcode.jpg')" class="price-qrcode blur"></div>
+                    </div>
+                    <div class="layui-col-xs8" style="margin-top: 50px;">
+                        <p class="layui-text layui-word-aux"><i class="fa fa-star-o"></i> 此码为<span style="color: #00bbee;">【<b>支付宝</b>】</span>，请使用支付宝扫码支付！</p>
+                        <p class="layui-text layui-word-aux layui-mt5"><i class="fa fa-star-o"></i> 支付完成如未更新，请手动 <a href="javascript:location.reload();"><b style="color: #000000;">刷新</b></a> 页面。</p>
+                        <p class="layui-text layui-word-aux layui-mt5"><i class="fa fa-star-o"></i> 订单付款码有效期5分钟，请在期间内完成。</p>
+                        <p class="layui-text layui-word-aux layui-mt5"><i class="fa fa-star-o"></i> 本商品为虚拟商品，充值后不退还，请悉知。</p>
+                        <p class="layui-text layui-word-aux layui-mt5"><i class="fa fa-star-o"></i> 频繁刷新付款码将会导致二维码空白失效。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item animated fadeIn">
+                <div class="layui-row layui-col-space10">
+                    <div class="layui-col-md3 price" th:each="price,priceStat:${prices}">
+                        <div class="price-item price-wxpay" th:data-price="${#numbers.formatDecimal(price,0,0)}">
+                            <p><span><i class="fa fa-rmb"></i> [[${#numbers.formatDecimal(price,0,0)}]]</span> <small>元</small></p>
+                            <p>[[${#numbers.formatDecimal(price * multiple,0,0)}]] 硬币</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row layui-col-space15" style="margin-top: 15px; ">
+                    <div class="layui-col-xs4">
+                        <div class="layui-row text-center">
+                            <a class="cursor" style="font-size: 14px;font-style: normal;" id="createQrCode_wxpay"><i class="fa fa-refresh"></i> 刷新付款码</a>
+                        </div>
+                        <hr>
+                        <div style="background-image: url('/static/assets/img/noqrcode.jpg')" class="price-qrcode blur"></div>
+                    </div>
+                    <div class="layui-col-xs8" style="margin-top: 50px;">
+                        <p class="layui-text layui-word-aux"><i class="fa fa-star-o"></i> 此码为<span style="color:#07c160;">【<b>微信</b>】</span>，请使用微信扫码支付！</p>
+                        <p class="layui-text layui-word-aux layui-mt5"><i class="fa fa-star-o"></i> 支付完成如未更新，请手动 <a href="javascript:location.reload();"><b style="color: #000000;">刷新</b></a> 页面即可！</p>
+                        <p class="layui-text layui-word-aux layui-mt5"><i class="fa fa-star-o"></i> 订单付款码有效期5分钟，请在期间内完成！</p>
+                        <p class="layui-text layui-word-aux layui-mt5"><i class="fa fa-star-o"></i> 本商品为虚拟商品，充值后不退还，请悉知。</p>
+                        <p class="layui-text layui-word-aux layui-mt5"><i class="fa fa-star-o"></i> 频繁刷新付款码将会导致二维码空白失效！</p>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div style="display: none;" id="dialog_manual">
+    <div class="layui-container dialog-title">
+        <p style="width: 500px;"><img th:src="${npsu.avatar}" class="layui-circle avatar"><label style="margin-left: 10px;">
+            充值（如遇问题，请联系站长[[${settings.admin_global_nickname}]]）「注明：硬币充值」</label><a
+                class="pull-right close-dialog" id="closeDialog_manual" href="javascript:closeDialog();">x</a></p>
+    </div>
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this"><img src="/static/assets/img/alipay.png" alt="" style="width: 25px;margin-top: -3px;"> 支付宝</li>
+            <li><img src="/static/assets/img/wxpay.png" alt="" style="width: 25px;margin-top: -3px;"> 微信</li>
+        </ul>
+        <div class="layui-tab-content" style="height: 100px;padding: 30px;">
+            <div class="layui-tab-item animated fadeIn layui-show">
+                <div class="layui-row">
+                    <div class="layui-col-xs12 text-center">
+                        <img style="width: 150px;" th:src="${settings.admin_qrcode_alipay}">
+                    </div>
+                </div>
+                <div class="layui-row layui-mt30 text-center" style="font-style: italic;">
+                    <p class="layui-text layui-word-aux">支付时请务必备注信息【硬币充值】。</p>
+                    <p class="layui-text layui-word-aux">支付兑换比例，硬币:RMB = 10:1。</p>
+                    <p class="layui-text layui-word-aux">支付之后不做退还，请在支付之前考虑清楚。</p>
+                    <p class="layui-text layui-word-aux">若支付当中出现任何问题，请联系站长。
+                    </p>
+                </div>
+            </div>
+            <div class="layui-tab-item animated fadeIn">
+                <div class="layui-row">
+                    <div class="layui-col-xs12 text-center">
+                        <img style="width: 150px;" th:src="${settings.admin_qrcode_wechat}">
+                    </div>
+                </div>
+                <div class="layui-row layui-mt30 text-center" style="font-style: italic;">
+                    <p class="layui-text layui-word-aux">支付时请务必备注信息【硬币充值】。</p>
+                    <p class="layui-text layui-word-aux">支付兑换比例，硬币:RMB = 10:1。</p>
+                    <p class="layui-text layui-word-aux">支付之后不做退还，请在支付之前考虑清楚。</p>
+                    <p class="layui-text layui-word-aux">若支付当中出现任何问题，请联系站长。</p>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!--底部导航栏-->
+<div th:replace="templates/def/fragment/footer"></div>
+<!--移动设备菜单导航-->
+<div th:replace="templates/def/fragment/mobile_nav"></div>
+
+<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+<!--[if lt IE 9]>
+<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="/static/def/plugins/layui/layui.js"></script>
+<script src="/static/def/js/svg.js"></script>
+<script src="/static/def/plugins/jquery/jquery-2.1.4.min.js"></script>
+<script src="/static/def/plugins/md5/md5.min.js"></script>
+<script src="/static/def/js/script.js"></script>
+<script src="/static/def/js/notepress.js"></script>
+<script src="/static/def/plugins/hc-sticky/hc-sticky.min.js"></script>
+<script src="/static/def/plugins/pushbar/pushbar.js"></script>
+<script src="/static/assets/js/config.js"></script>
+<!--suppress JSCheckFunctionSignatures -->
+<script th:inline="javascript">
+    var rechargeStatus = [[${settings.switch_recharge_server}]]
+    $(function () {
+
+        window.addEventListener("scroll", npfront.headerScroll());
+        npfront.miniHeader("main-body");
+        new Pushbar({
+            blur: true,
+            overlay: true
+        });
+
+
+        layui.use(['layer', 'element', 'laypage', 'laytpl', 'upload'], function () {
+            var layer = layui.layer,
+                element = layui.element,
+                laytpl = layui.laytpl,
+                upload = layui.upload,
+                laypage = layui.laypage;
+            npfront.miniHeaderNavBtn(layer);
+            element.render();
+
+
+            laypage.render({
+                elem: 'my-comment-page'
+                , limit: 4
+                , count: [[${commentCnt}]] //数据总数，从服务端得到
+                , jump: function (obj, first) {
+                    var _html =
+                        '{{#  layui.each(d.comments.records, function(index, item){ }}' +
+                        '<div class="layui-col-md6">\n' +
+                        '                            <div class="message-item">\n' +
+                        '                                <p>\n' +
+                        '                                    <span class="layui-word-aux"><i class="fa fa-hashtag"></i> {{item.floor}}楼</span>\n' +
+                        '                                    <span class="layui-word-aux"><i class="fa fa-clock-o"></i> {{item.gmtCreate}}</span>\n' +
+                        '                                </p>\n' +
+                        '                                ーー 我：\n' +
+                        '                                <p class="layui-text layui-elip" style="text-indent: 12px;">\n' +
+                        '                                    <span style="color: #2F4056;font-style: italic;">{{item.commentHtml}}</span>\n' +
+                        '                                </p>\n' +
+                        '                                <blockquote class="layui-elem-quote layui-elip">\n' +
+                        '                                    文章：\n' +
+                        '  {{#  if(item.contentId === "-1"){ }}\n' +
+                        '                                    <a href="/message" target="_blank">\n' +
+                        '                                        <b>{{d.titles[item.contentId]}}</b>\n' +
+                        '                                    </a>\n' +
+                        '  {{#  }else{ }} ' +
+                        '                                    <a href="/content/{{item.contentId}}" target="_blank">\n' +
+                        '                                        <b>{{d.titles[item.contentId]}}</b>\n' +
+                        '                                    </a>\n' +
+                        '  {{#  } }} ' +
+                        '                                </blockquote>\n' +
+                        '                            </div>\n' +
+                        '                        </div>' +
+                        '  {{#  }); }}\n';
+                    $.ajax({
+                        url: "/token/ubs/myComments",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            current: obj.curr,
+                            size: 4
+                        },
+                        success: function (r) {
+                            if (r.code === 200) {
+                                laytpl(_html).render(r.data, function (hm) {
+                                    $("#my-comments").html(hm);
+                                });
+                            } else {
+                                layer.msg(r.message);
+                            }
+                        }
+                    })
+                }
+            });
+
+
+            laypage.render({
+                elem: 'my-hide-page'
+                , limit: 5
+                , count: [[${hideCnt}]] //数据总数，从服务端得到
+                , jump: function (obj, first) {
+
+                    var _html =
+                        '{{#  layui.each(d.records, function(index, item){ }}' +
+                        '<p style="padding: 2px;cursor: pointer;">' +
+                        '<a href="/content/{{ item.id}}" target="_blank" >{{ item.title}}</a><hr>' +
+                        '</p>' +
+                        '  {{#  }); }}\n';
+                    $.ajax({
+                        url: "/token/ubs/myHide",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            current: obj.curr,
+                            size: 5
+                        },
+                        success: function (r) {
+                            if (r.code === 200) {
+                                laytpl(_html).render(r.data, function (hm) {
+                                    $("#hide-list").html(hm);
+                                });
+                            } else {
+                                layer.msg(r.message);
+                            }
+                        }
+                    })
+                }
+            });
+
+            laypage.render({
+                elem: 'my-purchase-page'
+                , limit: 5
+                , count: [[${purchaseCnt}]] //数据总数，从服务端得到
+                , jump: function (obj, first) {
+
+                    var _html =
+                        '{{#  layui.each(d.records, function(index, item){ }}' +
+                        '<p style="padding: 2px;cursor: pointer;">' +
+                        '<a data-href="/res/getUrl?hash={{ item.resUrl}}" target="_blank" >{{ item.resHash}}</a><hr>' +
+                        '</p>' +
+                        '  {{#  }); }}\n';
+                    $.ajax({
+                        url: "/token/ubs/myPurchased",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            current: obj.curr,
+                            size: 5
+                        },
+                        success: function (r) {
+                            if (r.code === 200) {
+                                laytpl(_html).render(r.data, function (hm) {
+                                    $("#purchase-list").html(hm);
+                                });
+                            } else {
+                                layer.msg(r.message);
+                            }
+                        }
+                    })
+                }
+            });
+
+            //上传头像
+            var avatarSrc = $("#user-avatar");
+            upload.render({
+                url: '/token/upload'
+                , elem: "#user-avatar"
+                , field: 'notepressFile'
+                , type: 'post'
+                , data: {
+                    code: 12,
+                    reqType: 'lay',
+                    userAvatar: 1
+                }
+                , done: function (res) {
+                    if (res.code === 200) {
+                        avatarSrc.find("img").attr("src", res.data.data.src);
+                    }
+                    layer.msg(res.data.message || res.data.data.msg || "上传成功！");
+                }
+            });
+
+
+            $("body").on("click", "a[data-href]", function () {
+                var u = $(this).attr("data-href");
+                $.get(u, function (resp) {
+                    if (resp.code === 200) {
+                        window.open(resp.data, "_blank");
+                    }
+                })
+            });
+
+            $("body").on("click", "div.price", function () {
+                $(".price-item").removeClass("active");
+                $(this).find(".price-item").addClass("active");
+                $(".price-qrcode").addClass("blur");
+            });
+
+            $("body").on("click", "a#createQrCode_alipay", function () {
+                var p = $(".price-alipay.active").attr("data-price");
+                if (!p || p === "" || p === null) {
+                    p = $(".price-alipay.active>input").val();
+                }
+                if (isRightMoney(p)) {
+                    $.post("/token/ubs/create/order", {price: p, type: "alipay"}, function (resp) {
+                        if (resp !== null && resp !== "") {
+                            $("div.price-qrcode.blur").css("background-image", "url('" + resp + "')");
+                            $("div.price-qrcode.blur").removeClass("blur");
+                        }
+                    });
+                } else {
+                    layer.msg("请选择充值金额或输入一个整数金额！");
+                }
+                send('{"type":"alipay",msg:"支付宝充值订单","toUserId":"' + userId + '"}');
+                setBlur();
+            });
+
+            $("body").on("click", "a#createQrCode_wxpay", function () {
+                var p = $(".price-wxpay.active").attr("data-price");
+                if (isRightMoney(p)) {
+                    $.post("/token/ubs/create/order", {price: p, type: "wxpay"}, function (resp) {
+                        if (resp !== null && resp !== "") {
+                            $("div.price-qrcode.blur").css("background-image", "url('" + resp + "')");
+                            $("div.price-qrcode.blur").removeClass("blur");
+                        }
+                    });
+                } else {
+                    layer.msg("请选择充值金额或输入一个整数金额！");
+                }
+                send('{"type":"wxpay",msg:"微信充值订单","toUserId":"' + userId + '"}');
+                setBlur();
+            });
+
+            var _top = 15;
+            if (layui.device().ios || layui.device().os === 'mac' || layui.device().ie) {
+                _top = 75;
+            }
+
+            npfront.clearSticky();
+            new hcSticky("#affix-side", {
+                stickTo: '#main-body'
+                , innerSticker: '#info-panel'
+                , queries: {992: {disable: true}}
+                , top: _top
+                , bottom: 15
+            });
+
+
+        });
+    });
+
+    function setBlur() {
+        setTimeout(function () {
+            $("div.price-qrcode").addClass("blur")
+        }, 5 * 60 * 1000);
+    }
+
+    function aboutSearch1() {
+        layer.msg("此处仅做标题和文章原始内容粗略关键字匹配！");
+    }
+
+
+    function searchAll1(e) {
+        var keyNum = window.event ? e.keyCode : e.which;
+        if (keyNum === 13) {
+            var words = $("input[name=words]").val();
+            location.href = "/index?s=" + encodeURI(words);
+        }
+    }
+
+    var _in;
+
+    function updatePwd() {
+        _in = layer.prompt({
+            formType: 1,
+            title: '请输入原密码'
+        }, function (value, index, elem) {
+            var nPwd = $("input[name=password_]").val();
+            if (nPwd === '' || nPwd === null) {
+                layer.msg("新密码不能为空！");
+            } else {
+                $.ajax({
+                    url: "/token/ubs/checkPwd",
+                    type: "post",
+                    dataType: "json",
+                    data: {pwd: md5(value)},
+                    async: false,
+                    success: function (resp) {
+                        if (resp.code === 200) {
+                            layer.close(_in);
+                            $.ajax({
+                                url: "/token/ubs/updateInfo",
+                                type: "post",
+                                dataType: "json",
+                                data: {
+                                    nickname: $("input[name=nickname_]").val(),
+                                    newPwd: md5(nPwd)
+                                },
+                                async: false,
+                                success: function (resp2) {
+                                    layer.alert(resp2.message);
+                                }
+                            });
+                        } else {
+                            layer.msg(resp.message);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    var _in;
+
+    function getCoin() {
+        var c = rechargeStatus === "1" ? $("#dialog_auto").html() : $("#dialog_manual").html();
+        _in = layer.open({
+            id: 'recharge-dialog',
+            type: 1,
+            title: false,
+            area: ['550px', '480px'],
+            closeBtn: false,
+            resize: false,
+            content: c
+        });
+        // if (!supportSocket) {
+        //     layer.alert("请在扫码付款完成之后刷新页面查看的硬币余额！")
+        // }
+    }
+
+    function sign4Coin() {
+        $.get("/token/ubs/sign",
+            {},
+            function (resp) {
+                layer.msg(resp.message);
+            });
+    }
+
+    function closeDialog() {
+        layer.close(_in);
+    }
+
+    function updateNickname() {
+        $.post("/token/ubs/updateInfo", {
+            nickname: $("input[name=nickname_]").val(),
+            password: md5($("input[name=password_]").val())
+        }, function (resp) {
+            layer.alert(resp.message);
+        })
+    }
+
+    function isRightMoney(money) {
+        var r = /^\+?[1-9][0-9]*$/;　　//正整数
+        return r.test(money);
+    }
+</script>
+<script th:inline="javascript">
+
+    var socket;
+    var supportSocket = false;
+    var needRefreshPage = false;
+    if (typeof (WebSocket) == "undefined") {
+        // console.log("您的浏览器不支持WebSocket");
+    } else if (rechargeStatus === "1") {
+        supportSocket = true;
+        // console.log("您的浏览器支持WebSocket");
+        var userId = [[${npsu.id}]];
+        var socketUrl = App.ws_schema + "://" + App.ws_domain + "/payServer/" + userId;
+
+        //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+        socket = new WebSocket(socketUrl);
+        //打开事件
+        socket.onopen = function () {
+            // console.log("Socket 已打开");
+            needRefreshPage = false;
+        };
+        //获得消息事件
+        socket.onmessage = function (msg) {
+            if (msg.data === "success") {
+                layer.msg("充值成功，即将刷新页面！");
+                setTimeout(function () {
+                    location.reload();
+                    closeWebSocket();
+                }, 1000);
+            }
+            //发现消息进入    调后台获取
+            //getCallingList();
+            // closeWebSocket();
+        };
+        //关闭事件
+        socket.onclose = function () {
+            // console.log("Socket已关闭");
+            needRefreshPage = true;
+        };
+        //发生了错误事件
+        socket.onerror = function () {
+            // alert("Socket发生了错误");
+            needRefreshPage = true;
+        }
+
+        //关闭连接
+        function closeWebSocket() {
+            socket.close();
+        }
+
+        //发送消息
+        function send(message) {
+            if (socket.readyState !== socket.OPEN) {
+                var socketUrl = App.ws_schema + "://" + App.ws_domain + "/payServer/" + userId;
+                //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+                socket = new WebSocket(socketUrl);
+            }
+            socket.send(message);
+        }
+    }
+
+</script>
+</body>
+</html>

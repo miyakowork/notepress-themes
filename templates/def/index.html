@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" th:content="${settings.admin_global_nickname}"/>
+    <meta name="description" th:content="${settings.seo_description}"/>
+    <meta name="keywords" th:content="${settings.seo_keywords}"/>
+    <link rel="shortcut icon" th:href="${settings.website_logo_small}">
+    <link rel="stylesheet" href="/static/def/plugins/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/def/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/def/css/style.css">
+    <link rel="stylesheet" href="/static/def/css/wel.css">
+    <link rel="stylesheet" href="/static/def/css/layui-theme-nbv5.css">
+    <link rel="stylesheet" href="/static/def/plugins/pushbar/pushbar.css">
+    <link rel="stylesheet" href="/static/def/css/simple.css">
+    <title th:text="${settings.website_name}"></title>
+</head>
+<body class="layui-anim layui-anim-fadein simple">
+<!--顶部导航栏-->
+<div th:replace="templates/def/fragment/header"></div>
+<div id="main-body" class="layui-container" style="margin-bottom: 0;padding-bottom: 0;">
+    <div class="layui-row layui-col-space15" id="cards">
+    </div>
+</div>
+<div class="layui-fluid text-center footer-div">
+
+    <div class="layui-row" style="margin-bottom: 20px;">
+        <a th:if="${settings.def_theme_conf.zdy.url != null && settings.def_theme_conf.zdy.url != ''}"
+           th:href="${settings.def_theme_conf.zdy.url}" th:class="${cur eq 'zdy' ?'active':''}">
+            <i th:class="${settings.def_theme_conf.zdy.icon}"></i>
+            <span th:text="${settings.def_theme_conf.zdy.name}"></span>
+        </a>
+    </div>
+
+    <blockquote class="layui-elem-quote footer-block">
+        <i class="fa fa-hand-rock-o"></i> Powered By <img th:src="${settings.website_logo_large}" class="logo">／
+        <img th:src="${settings.admin_global_avatar}" class="layui-circle author"> [[${settings.admin_global_nickname}]]. [[${settings.footer_copyright}]].
+    </blockquote>
+</div>
+<!--移动设备菜单导航-->
+<div th:replace="templates/def/fragment/mobile_nav"></div>
+<script src="/static/def/plugins/layui/layui.js"></script>
+<script src="/static/def/plugins/jquery/jquery-1.11.3.min.js"></script>
+<script src="/static/def/js/script.js"></script>
+<script src="/static/def/js/notepress.js"></script>
+<script src="/static/def/plugins/pushbar/pushbar.js"></script>
+<script src="/static/def/tpl/card.js"></script>
+<script th:inline="javascript">
+    $(function () {
+        if (layui.device().ios || layui.device().android) {
+            location.href = "/index";
+        }
+
+        var cardData = [[${settings.def_theme_conf}]];
+
+        new Pushbar({
+            blur: true,
+            overlay: true
+        });
+
+
+        layui.use(['layer', 'element', 'laytpl'], function () {
+            var layer = layui.layer,
+                laytpl = layui.laytpl,
+                element = layui.element;
+
+            element.render();
+            npfront.miniHeaderNavBtn(layer);
+
+            var cnt = 0;
+            for (var i = 0; i < cardData.wel_card.length; i++) {
+                if (cardData.wel_card[i].show) {
+                    cnt++;
+                }
+            }
+            cardData.__cnt__ = cnt;
+            renderCard(cardData, laytpl, $("#cards"));
+
+        });
+
+        $(".layui-card").hover(function () {
+            $(this).find("i.fa-check-square-o").removeClass("fa-check-square-o").addClass("fa-check-square");
+        }, function () {
+            $(this).find("i.fa-check-square").removeClass("fa-check-square").addClass("fa-check-square-o");
+        });
+
+    });
+
+</script>
+</body>
+</html>

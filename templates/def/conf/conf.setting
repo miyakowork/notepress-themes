@@ -1,0 +1,22 @@
+#主题名称
+name = def
+#主题相关的后台管理菜单,jsonArray形式
+indexMenu = ["theme,style,风格设置,theme/router/def/style","theme,param,首页卡片设置,theme/router/def/card"]
+#配置参数的参数名
+paramKey = def_theme_conf
+
+#主题的一些设置
+[conf]
+#4个卡片的设置,json格式
+wel_card = []
+#文章列表的风格设置，5种模式 nobar12/12/9-3/3-9/media
+notetypesetting = left3right9
+#内容详细页面的风格设置，3种模式，无侧边栏/左侧边栏/右侧边栏
+article_page_style = 1
+#导航栏菜单名称
+nav_menus = {"menu_purchase":"","menu_home":"","menu_message":"","menu_note":""}
+#自定义菜单导航
+zdy = {"icon":"","name":"","url":""}
+#首页顶部的一些文字
+index_top_text = 欢迎加入QQ群：697053454（获取项目最新信息 & 交流讨论）
+

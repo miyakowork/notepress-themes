@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AliPay</title>
+    <script src="/js/alipayjsapi.inc.min.js"></script>
+</head>
+<body>
+
+<script th:inline="javascript">
+    function ready(a) {
+        window.AlipayJSBridge ? a && a() : document.addEventListener("AlipayJSBridgeReady", a, !1)
+    }
+
+    ready(function () {
+        try {
+            // function getParam(name) {
+            //     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            //     var r = window.location.search.substr(1).match(reg);
+            //     if (r != null) return decodeURIComponent(r[2]); return null;
+            // }
+            var a = {
+                actionType: "scan",
+                //支付宝用户id
+                // 支付宝userid pc登录 https://my.alipay.com/portal/i.htm 右键查看网页源代码搜索 userId 得到的值 和支付宝收款用户绑定
+                u: [[${alipayUserId}]],
+                a: [[${amount}]],//金额
+                m: [[${memo}]],//备注
+                biz_data: {
+                    s: "money",
+                    u: [[${alipayUserId}]],//支付宝用户id
+                    a: [[${amount}]],//金额
+                    m: [[${memo}]]//备注
+                }
+            }
+        } catch (b) {
+            returnApp()
+        }
+        AlipayJSBridge.call("startApp", {
+            appId: "20000123",
+            param: a
+        }, function (a) {
+        })
+    });
+    document.addEventListener("resume", function (a) {
+        returnApp()
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" th:content="${contentAuthor}"/>
+    <meta name="description" th:content="${settings.seo_description}"/>
+    <meta name="keywords" th:content="${settings.seo_keywords}"/>
+    <link rel="shortcut icon" th:href="${settings.website_logo_small}">
+    <link rel="stylesheet" href="/static/def/plugins/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/def/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/def/plugins/animate/animate.min.css">
+    <link rel="stylesheet" href="/static/def/css/style.css">
+    <link rel="stylesheet" href="/static/def/css/layui-theme-nbv5.css">
+    <link rel="stylesheet" href="/static/def/plugins/pushbar/pushbar.css">
+    <link rel="stylesheet" href="/static/def/css/simple.css">
+    <link rel="stylesheet" href="/static/def/css/content.css">
+    <link rel="stylesheet" href="/static/def/css/ubs.css">
+    <title>[[${settings.website_name}]] 资源仓库</title>
+</head>
+<body class="layui-anim layui-anim-fadein simple">
+<!--顶部导航栏-->
+<div th:replace="templates/def/fragment/header (cur='netdisk')"></div>
+<!--顶部文字-->
+<div class="layui-container top-block">
+    <blockquote class="layui-elem-quote">
+        <span class="layui-breadcrumb">
+            <a href="/">网站首页</a>
+            <a href="/token/ubs">资源仓库</a>
+        </span>
+        <div class="clock layui-show-md-inline-block layui-show-lg-inline-block layui-hide-xs layui-hide-sm">
+            <span class="clock-font">当前日期</span>：<span id="current-datetime"></span>
+        </div>
+    </blockquote>
+</div>
+
+<!--内容正体-->
+<div id="main-body" class="layui-container" style="padding-bottom: 100px;">
+    <input type="hidden" name="cid">
+    <div class="layui-row layui-col-space25">
+        <div class="layui-col-md3">
+            <div id="affix-side">
+
+                <div class="layui-card" id="search-panel">
+                    <div class="layui-card-body">
+                        <p class="title">搜索 <small style="float: right;">
+                            <a style="cursor: pointer;" onclick="aboutSearch2();" target="_blank"><i>关于 <i class="fa fa-info-circle"></i></i></a></small></p>
+                        <hr>
+                        <input name="words" onkeypress="searchAll2(event);"
+                               placeholder="键入Enter键以搜索" autocomplete="off" class="layui-input search-box">
+                    </div>
+                </div>
+
+                <div class="layui-card">
+                    <div class="layui-card-header">资源分类</div>
+                    <div class="layui-card-body">
+                        <div id="test4" class="demo-tree"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md9">
+            <div class="layui-card" id="list">
+                <div class="layui-card-header"><i class="fa fa-list-ol"></i> 文件列表<span th:if="${npsu ne null}">（我的余额：[[${npsu.coin}]]）</span></div>
+                <div class="layui-card-body res-list" style="padding-left: 0;padding-right: 0;">
+
+                    <div class="layui-row" style="margin-bottom: 5px;padding: 10px 2%;">
+                        <a class="layui-btn-sm layui-btn layui-bg-cyan" id="purchase"><i class="fa fa-cube"></i> 购买</a>
+                        <a class="layui-btn-sm layui-btn layui-bg-red" href="/token/ubs"><i class="fa fa-credit-card"></i> 充值</a>
+                    </div>
+                    <div class="layui-row res-list-title">
+                        <div class="layui-col-md7 res-item-name layui-show-md-inline-block">
+                            <b>文件名</b>
+                        </div>
+                        <div class="layui-col-md1 layui-hide-xs layui-hide-sm  layui-show-md-inline-block">
+                            <b>硬币</b>
+                        </div>
+                        <div class="layui-col-md1 layui-hide-xs layui-hide-sm  layui-show-md-inline-block text-center">
+                            <b>授权码</b>
+                        </div>
+                        <div class="layui-col-md1 layui-hide-xs layui-hide-sm layui-hide-md layui-show-lg-inline-block text-center">
+                            <b>大小</b>
+                        </div>
+                        <div class="layui-col-md2 layui-hide-xs layui-hide-sm layui-hide-md layui-show-lg-inline-block text-center">
+                            <b>时间</b>
+                        </div>
+                    </div>
+
+                    <div id="res-list" class="layui-form layui-anim layui-anim-upbit" lay-filter="resForm">
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</div>
+<style>
+    .res-list-title {
+        padding: 5px 15px;
+        border-bottom: 1px solid #f1f1f1;
+        background-color: #eaeaea;
+    }
+
+    .layui-form-checked[lay-skin=primary] i {
+        border-color: #cd3f06 !important;
+    }
+
+    .res-list div.res-item {
+        height: 24px;
+        padding: 12px;
+    }
+
+    .res-list div.res-item:hover {
+        background-color: #f1f1f1;
+        cursor: pointer;
+        transition: background-color .5s;
+        -moz-transition: background-color .5s;
+    }
+</style>
+
+
+<!--底部导航栏-->
+<div th:replace="templates/def/fragment/footer"></div>
+<!--移动设备菜单导航-->
+<div th:replace="templates/def/fragment/mobile_nav"></div>
+
+<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+<!--[if lt IE 9]>
+<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="/static/def/plugins/layui/layui.js"></script>
+<script src="/static/def/js/svg.js"></script>
+<script src="/static/def/plugins/jquery/jquery-2.1.4.min.js"></script>
+<script src="/static/def/js/script.js"></script>
+<script src="/static/def/js/notepress.js"></script>
+<script src="/static/def/plugins/hc-sticky/hc-sticky.min.js"></script>
+<script src="/static/def/plugins/pushbar/pushbar.js"></script>
+<!--suppress JSCheckFunctionSignatures -->
+<script th:inline="javascript">
+    var userResIds = [[${userResIds}]];
+    var npsu = [[${npsu}]];
+    var srn = [[${srn}]];
+    var _flow, _form;
+    $(function () {
+
+        window.addEventListener("scroll", npfront.headerScroll());
+        npfront.miniHeader("main-body");
+        new Pushbar({
+            blur: true,
+            overlay: true
+        });
+
+
+        layui.use(['layer', 'element', 'tree', 'form', 'flow'], function () {
+            var layer = layui.layer,
+                element = layui.element,
+                tree = layui.tree,
+                form = layui.form,
+                flow = layui.flow;
+            _flow = flow;
+            _form = form;
+            npfront.miniHeaderNavBtn(layer);
+            element.render();
+
+            $.get("/res/cateTree", function (resp) {
+                var root = {
+                    title: "全部",
+                    id: "",
+                    spread: true,
+                    field: "cId"
+                };
+                var _data = resp.data;
+                _data.unshift(root);
+                tree.render({
+                    elem: '#test4'
+                    , text: {
+                        defaultNodeName: '未命名' //节点默认名称
+                        , none: '无数据' //数据为空时的提示文本
+                    }
+                    , click: function (obj) {
+                        $("input[name=cid]").val(obj.data.id);
+                        $("#res-list").empty();
+                        loadList(flow, form, obj.data.id, ($("input[name=words]").val() || srn));
+                    }
+                    , onlyIconControl: true
+                    , data: _data
+                });
+            });
+
+
+            var _top = 15;
+            if (layui.device().ios || layui.device().os === 'mac' || layui.device().ie) {
+                _top = 75;
+            }
+            npfront.clearSticky();
+            new hcSticky("#affix-side", {
+                stickTo: '#main-body'
+                , innerSticker: '#info-panel'
+                , queries: {992: {disable: true}}
+                , top: _top
+                , bottom: 15
+            });
+
+
+            var sumCoin = 0;
+
+            $("body").on("click", ".res-item[data-id]>.res-item-name>.layui-form-checkbox", function () {
+                var $that = $(this).parents(".res-item[data-id]");
+                var obj = form.val('resForm');
+                var ss = $that.data("id");
+                var coin = $that.data("coin");
+                if (obj.hasOwnProperty(ss)) {
+                    obj[ss] = !obj[ss];
+                    sumCoin = sumCoin - coin;
+                } else {
+                    obj[ss] = true;
+                    sumCoin = sumCoin + coin;
+                }
+                form.val('resForm', obj)
+            });
+
+            $("body").on("click", ".res-item[data-id]", function () {
+                var obj = form.val('resForm');
+                var ss = $(this).data("id");
+                var name = $(this).data("name");
+                var coin = $(this).data("coin");
+                if (obj.hasOwnProperty(ss)) {
+                    obj[ss] = !obj[ss];
+                    sumCoin = sumCoin - coin;
+                } else {
+                    obj[ss] = true;
+                    sumCoin = sumCoin + coin;
+                }
+                form.val('resForm', obj)
+            });
+
+
+            $("body").on("click", "a[data-href]", function () {
+                var u = $(this).attr("data-href");
+                $.get(u, function (resp) {
+                    if (resp.code === 200) {
+                        window.open(resp.data, "_blank");
+                    }
+                })
+            });
+
+            $("#purchase").click(function () {
+                var obj = form.val('resForm');
+                var resObj = [];
+                for (var o in obj) {
+                    if (obj.hasOwnProperty(o)) {
+                        resObj.push(o);
+                    }
+                }
+
+                layer.confirm('', {
+                    title: '提示',
+                    content: '您将购买' + resObj.length + '个资源，花费' + sumCoin + '个硬币'
+                }, function (index) {
+                    $.post("/res/token/purchase", {
+                        ids: resObj.join(",")
+                    }, function (resp) {
+                        if (resp.code === -3) {
+                            layer.confirm('您还未登录，是否跳转至登录页面', {icon: 3, title: '提示'}, function (index) {
+                                location.href = "/np-login?redirectUrl=" + btoa(encodeURIComponent(location.href));
+                                layer.close(index);
+                            });
+                        } else if (resp.code === 200) {
+                            layer.msg(resp.message);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 500)
+                        } else {
+                            layer.msg(resp.message);
+                        }
+                    });
+                });
+
+
+            });
+
+
+            loadList(flow, form, "", ($("input[name=words]").val() || srn));
+
+        });
+    });
+
+    function loadList(flow, form, cid, rn) {
+        flow.load({
+            elem: '#res-list' //流加载容器
+            , isAuto: false
+            , done: function (page, next) { //加载下一页
+                $.post(
+                    "/res/list", {
+                        pageSize: 15
+                        , pageNo: page
+                        , cid: cid
+                        , rn: rn
+                    },
+                    function (success) {
+                        if (success.code === 200) {
+                            var dataList = success.data.result;
+                            var lis = [];
+                            for (var i = 0; i < dataList.length; i++) {
+                                var size = dataList[i].resFsizeBytes / 1024 / 1024;
+                                size = size < 0 ? '-' : size < 1 ? (dataList[i].resFsizeBytes / 1024).toFixed(2) + "KB" : size.toFixed(2) + "MB";
+                                var introUrl = dataList[i].resIntroUrl || '';
+                                var resUrl = dataList[i].resFsizeBytes > 0 ? "/res/getUrl?hash=" + dataList[i].resUrl : dataList[i].resUrl;
+                                var _h =
+                                    '<div class="layui-row res-item layui-anim layui-anim-upbit" data-id="' + dataList[i].id + '" data-name="' + (dataList[i].remark || dataList[i].resHash) + '" data-coin="' + dataList[i].coin + '">\n' +
+                                    '                        <div class="layui-col-md7 res-item-name layui-elip layui-show-md-inline-block">\n';
+                                if (npsu && (npsu.admin || userResIds.indexOf(dataList[i].id) > -1)) {
+                                    _h += '<a data-href="' + resUrl + '" style="width: 40px;font-size: 16px;cursor:pointer;"><i class="fa fa-cloud-download"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="' + introUrl + '" target="_blank">' + (dataList[i].remark || dataList[i].resHash) + '</a>';
+                                } else {
+                                    _h += '<input type="checkbox" name="' + dataList[i].id + '" lay-skin="primary"> <a href="' + introUrl + '" target="_blank">' + (dataList[i].remark || dataList[i].resHash) + '</a>';
+                                }
+
+                                _h += '                 </div>\n' +
+                                    '                        <div class="layui-col-md1 layui-hide-xs layui-hide-sm layui-show-md-inline-block"> <b><svg class="icon" aria-hidden="true"><img src="/static/def/img/coin.svg" style="width: 20px;margin-left: -20px;">&nbsp;' + dataList[i].coin + '</b>' +
+                                    '                        </div>\n' +
+                                    '                        <div class="layui-col-md1 layui-hide-xs layui-hide-sm layui-show-md-inline-block text-center">' + (dataList[i].authCode || '-') +
+                                    '                        </div>\n' +
+                                    '                        <div class="layui-col-md1 layui-hide-xs layui-hide-sm layui-hide-md layui-show-lg-inline-block text-center">' + size +
+                                    '                        </div>\n' +
+                                    '                        <div class="layui-col-md2 layui-hide-xs layui-hide-sm layui-hide-md layui-show-lg-inline-block text-center">' + npfront.formatDate(dataList[i].gmtCreate, 'MM/dd HH:mm') +
+                                    '                        </div>\n' +
+                                    '                    </div><hr style="margin: 0;" class="layui-anim layui-anim-upbit"/>';
+                                lis.push(_h)
+                            }
+                            next(lis.join(''), page < success.data.totalPages);
+                            form.render();
+                        }
+                    });
+
+            }
+        });
+    }
+
+    function aboutSearch2() {
+        layer.msg("此处搜索为资源文件搜索，非文章内容的搜索！");
+    }
+
+
+    function searchAll2(e) {
+        var keyNum = window.event ? e.keyCode : e.which;
+        if (keyNum === 13) {
+            var words = $("input[name=words]").val();
+            $("#res-list").empty();
+            loadList(_flow, _form, $("input[name=cid]").val(), (words || srn));
+        }
+    }
+
+
+</script>
+</body>
+</html>
