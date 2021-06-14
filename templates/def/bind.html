@@ -35,15 +35,26 @@
                     <p><img th:src="${settings.website_logo_small}" class="layui-circle layui-avatar-model"></p>
                 </div>
             </div>
+            <blockquote class="layui-elem-quote" style="border-left-color: #F44336;font-size: 14px;color: #909090;">请输入本站账号密码，没有则自动注册，请牢记！</blockquote>
             <div class="login-body">
                 <div class="layui-form-item">
                     <label><i class="layui-icon layui-icon-username"></i> </label>
-                    <input type="text" name="npname" lay-verify="username"
+                    <input type="text" name="npname" lay-verify="username" autocomplete="off" th:value="${source+'_'+username}"
                            placeholder="用户名" class="layui-input">
+                </div>
+                <div class="layui-form-item layui-hide">
+                    <label><i class="layui-icon layui-icon-user"></i> </label>
+                    <input type="text" name="nickname" th:value="${nickname}" autocomplete="off"
+                           placeholder="用户昵称" class="layui-input">
+                </div>
+                <div class="layui-form-item layui-hide">
+                    <label><i class="layui-icon layui-icon-user"></i> </label>
+                    <input type="email" name="email" th:value="${email}" autocomplete="off"
+                           placeholder="用户邮箱" class="layui-input">
                 </div>
                 <div class="layui-form-item">
                     <label><i class="layui-icon layui-icon-password"></i> </label>
-                    <input type="password" name="nppass" lay-verify="pass"
+                    <input type="password" name="nppass" lay-verify="pass" autocomplete="off" th:value="${''}"
                            placeholder="密码" class="layui-input">
                 </div>
                 <div class="layui-form-item">
@@ -51,7 +62,7 @@
                         <div class="layui-col-xs7">
                             <label for="NB-user-vercode" style="margin-top: 8px;margin-left: 7px;"><i
                                     class="layadmin-user-login-icon layui-icon layui-icon-vercode"></i> </label>
-                            <input type="text" name="npcode" id="LAY-user-login-vercode" lay-verify="required"
+                            <input type="text" name="npcode" id="LAY-user-login-vercode" lay-verify="required" autocomplete="off"
                                    placeholder="验证码" class="layui-input">
                         </div>
                         <div class="layui-col-xs5">
@@ -79,7 +90,7 @@
 </div>
 <div class="layui-trans layadmin-user-login-footer footer-login" style="z-index: -100;">
 
-    <p><i class="fa fa-graduation-cap"></i> 2020 <a href="//wuwenbin.me/content/u/notepress" target="_blank">NotePress &copy;</a></p>
+    <p><i class="fa fa-graduation-cap"></i> 2020 <a href="//wuwenbin.me/content/u/deployDoc" target="_blank">NotePress &copy;</a></p>
     <p>
         <span><a href="//wuwenbin.me" target="_blank">作者博客</a></span>
         <span><a target="_blank"

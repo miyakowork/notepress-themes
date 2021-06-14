@@ -102,3 +102,7 @@ layui.use(['form', 'jquery', 'sliderVerify'], function () {
 function captchaRefresh(img) {
     $(img).attr("src", "/image/code?t=" + Math.random());
 }
+
+$(function () {
+    $("input[type=password]").val("");
+})
