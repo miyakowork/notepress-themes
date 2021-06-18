@@ -19,9 +19,17 @@ var affixSideBar =
 
     '<div class="layui-card" id="info-panel">' +
     '<div class="layui-card-body text-center" style="padding: 20px;">' +
+    '       {{# if(!isRichTxt(d.contentObj)){ }}' +
+    '<p class="nb-theme-color">目录</p>' +
+    '<hr>' +
+    '<div id="tocm"></div>' +
+    '<hr>' +
+    '       {{# } }}' +
+    '       {{# if(isRichTxt(d.contentObj)){ }}' +
     '<a class="no-hover cursor" href="/np-login?redirectUrl=' + btoa(encodeURIComponent(location.href)) + '" target="_blank">' +
     '<img src="{{d.settings.website_logo_small}}" class="layui-circle no-hover animated flipInX" style="width: 150px;height:150px;border: 1px solid #e6e5e5;" alt="{{d.settings.admin_global_nickname}}">' +
     '</a>' +
+    '       {{# } }}' +
     '<p class="layui-text nbv5-font" style="margin: 10px;color: #F44336;"><i class="fa fa-ravelry"></i>&nbsp;：<b>{{d.settings.admin_global_nickname}}（站长）</b></p>' +
     '<hr>' +
     '{{# if(d.npsu != null){}}' +
@@ -51,7 +59,7 @@ var affixSideBar =
     ' <hr>' +
     ' <div class="layui-btn-container">' +
     '{{# layui.each(d.cateList, function(index, item){ }}' +
-    '<a href="/index?s={{d.s}}&cates={{item.id}}&searh=1" class="layui-btn layui-btn-primary layui-btn-sm"><i class="fa fa-reorder"></i> {{item.nickname}}</a>' +
+    '<a href="/index?s={{d.s}}&cates={{item.id}}&searh=1" class="layui-btn layui-btn-primary layui-btn-sm"><i class="fa fa-hashtag"></i> {{item.nickname}}</a>' +
     '{{# });  }}' +
     '</div>' +
     '</div>' +

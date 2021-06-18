@@ -179,6 +179,39 @@ blockquote[data-htype] a {
     border-bottom: 1px solid #ccc;
 }
 
-.article-detail ul>li{
+.article-detail ul > li {
     list-style: disc !important;
 }
+
+#tocm {
+    text-align: left !important;
+}
+
+#tocm ul, #tocm ul li {
+    list-style-type: none !important;
+}
+
+#tocm ul li a.toc-level-1 {
+    padding-left: 5px;
+}
+
+#tocm ul li a.toc-level-2 {
+    padding-left: 10px;
+}
+
+#tocm ul li a.toc-level-3 {
+    padding-left: 15px;
+}
+
+#tocm ul li a.toc-level-4 {
+    padding-left: 20px;
+}
+
+#tocm ul li a.toc-level-5 {
+    padding-left: 25px;
+}
+
+#tocm ul li a.toc-level-6 {
+    padding-left: 30px;
+}
+

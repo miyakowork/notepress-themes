@@ -222,9 +222,11 @@ function resolveMd(article) {
         markdown: article.mdContent,//+ "\r\n" + $("#append-test").text(),
         //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
         htmlDecode: "style,script,iframe",  // you can filter tags decode
-        tocContainer: "#custom-toc-container", // 自定义 ToC 容器层
         //gfm             : false,
-        //tocDropdown     : true,
+        // toc: false,
+        // tocDropdown: true,
+        tocm: true,    // Using [TOCM]
+        tocContainer: "#tocm", // 自定义 ToC 容器层
         markdownSourceCode: false, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
         emoji: false,
         taskList: true,
