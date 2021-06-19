@@ -306,3 +306,13 @@ function avatarHover() {
 function tuomin(s) {
     return s.substr(1, 2).concat("***").concat(s.substr(s.indexOf("@"), s.length));
 }
+
+
+/**
+ * 是否为富文本而不是md
+ * @param article
+ * @returns {boolean}
+ */
+function isRichTxt(article) {
+    return true;
+}

@@ -196,7 +196,9 @@ layui.define(['laytpl', 'timeago', 'laypage', 'affixside'], function (exports) {
             commentPage(laypage, obj.comments, obj.contentObj.id, tpl, timeago);
             imgView();
         });
-
+        if (!isRichTxt(obj.contentObj)) {
+            openPanel();
+        }
     });
 
 });
