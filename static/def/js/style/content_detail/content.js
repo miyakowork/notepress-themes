@@ -77,8 +77,8 @@ layui.define(['laytpl', 'timeago', 'laypage', 'affixside'], function (exports) {
         ' </div>' +
         ' <div class="layui-row layui-mt20">' +
         '     <blockquote class="layui-elem-quote text-center " style="border: none;">' +
-        '         <span class="layui-show-md-inline-block layui-hide">文章出处：{{ d.settings.website_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;' +
-        '         <span class="layui-show-md-inline-block layui-hide">文章地址：{{= window.location.href}}</span>&nbsp;&nbsp;&nbsp;&nbsp;' +
+        '         文章出处：<span class="layui-show-md-inline-block layui-hide nb-theme-color">{{ d.settings.website_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;' +
+        '         文章地址：<span class="layui-show-md-inline-block layui-hide nb-theme-color">{{= window.location.href}}</span>&nbsp;&nbsp;&nbsp;&nbsp;' +
         '         <span>转载注明下哦！o(≧v≦)o~~</span>' +
         '     </blockquote>' +
         ' </div>' +

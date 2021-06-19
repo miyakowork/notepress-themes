@@ -17,6 +17,19 @@
     <link rel="stylesheet" href="/static/def/plugins/pushbar/pushbar.css">
     <link rel="stylesheet" href="/static/def/css/simple.css">
     <title th:text="${settings.website_name}"></title>
+    <style>
+        .simple .header{
+            -webkit-user-select: none;
+            -webkit-box-shadow: 0 1px 3px rgba(26, 26, 26, .05);
+            -moz-box-shadow: 0 1px 3px rgba(26, 26, 26, .05);
+            box-shadow: 0 1px 3px rgba(26, 26, 26, 0.05);
+        }
+        .simple .header,
+        .nav-header,
+        .nav-btn a{
+            background: #f6f8fa !important;
+        }
+    </style>
 </head>
 <body class="layui-anim layui-anim-fadein simple">
 <!--顶部导航栏-->
@@ -50,7 +63,8 @@
 <script src="/static/def/tpl/card.js"></script>
 <script th:inline="javascript">
     $(function () {
-        if (layui.device().ios || layui.device().android) {
+        var device = layui.device();
+        if (device.ios || device.android || device.mobile) {
             location.href = "/index";
         }
 
