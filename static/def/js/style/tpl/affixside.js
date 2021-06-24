@@ -8,6 +8,9 @@ layui.define(function (exports) {
     var obj = {
         tplStr: function () {
             return affixSideBar;
+        },
+        tplStrLess: function () {
+            return affixSideBarLess;
         }
     };
 
@@ -98,6 +101,64 @@ var affixSideBar =
     '<hr>' +
     '{{# layui.each(d.linkList, function(index, item){ }}' +
     '<a href="{{linkSplit(item.dictValue,1)}}" target="_blank" class="layui-text" style="margin-right: 10px;">{{ linkSplit(item.dictValue,0) }}</a>' +
+    '{{# });  }}' +
+    '</div>' +
+    '</div>' +
+
+
+    '</div>';
+
+
+var affixSideBarLess =
+    '<div id="affix-side">' +
+
+    '<div class="layui-card" id="info-panel">' +
+    '<div class="layui-card-body text-center" style="padding: 20px;">' +
+    '       {{# if(!isRichTxt(d.contentObj)){ }}' +
+    '<p class="nb-theme-color">目录</p>' +
+    '<hr>' +
+    '<div id="tocm"></div>' +
+    '<hr>' +
+    '       {{# } }}' +
+    '       {{# if(isRichTxt(d.contentObj)){ }}' +
+    '<a class="no-hover cursor" href="/np-login?redirectUrl=' + btoa(encodeURIComponent(location.href)) + '" target="_blank">' +
+    '<img src="{{d.settings.website_logo_small}}" class="layui-circle no-hover animated flipInX" style="width: 150px;height:150px;border: 1px solid #e6e5e5;" alt="{{d.settings.admin_global_nickname}}">' +
+    '</a>' +
+    '       {{# } }}' +
+    '<p class="layui-text nbv5-font" style="margin: 10px;color: #F44336;"><i class="fa fa-ravelry"></i>&nbsp;：<b>{{d.settings.admin_global_nickname}}（站长）</b></p>' +
+    '<hr>' +
+    '{{# if(d.npsu != null){}}' +
+    '<p>个人中心：<a href="/token/ubs" class="no-hover"><img src="{{d.npsu.avatar}}" style="width: 30px;height: 30px;border: 1px solid #ccc;" class="layui-circle"></a>' +
+    '<label style="color: #F44336;font-weight: bolder;margin-left: 10px;"><a href="/token/ubs">{{d.npsu.nickname}}</a></label>' +
+    '</p>' +
+    '{{#}else{}}' +
+    '<p class="layui-text">游客您好！点我<a href="/np-login?redirectUrl=' + btoa(encodeURIComponent(location.href)) + '" class="no-hover" style="color: #F44336;">登录/注册</a></p>' +
+    '{{#}}}' +
+    '<div class="layui-mt10">{{d.settings.website_info_label}}</div>' +
+    '</div>' +
+    '</div>' +
+
+    '<div class="layui-card" id="article-random-panel">' +
+    '<div class="layui-card-body">' +
+    ' <p class="title">随便看看 </p>' +
+    ' <hr>' +
+    '{{# layui.each(d.randomContents, function(index, item){ }}' +
+    '<blockquote class="layui-elem-quote" style="padding: 5px 10px;background: #f8f8f8;">' +
+    '<p class="layui-text layui-elip">' +
+    '<a href="/content/{{item.id}}" class="layui-word-aux">{{item.title}}</a>' +
+    '</p>' +
+    '</blockquote>' +
+    '{{# });  }}' +
+    '</div>' +
+    '</div>' +
+
+
+    '<div class="layui-card layui-tags" id="tag-panel">' +
+    '<div class="layui-card-body">' +
+    '<p class="title">热门标签</p>' +
+    '<hr>' +
+    '{{# layui.each(d.tagList, function(index, item){ }}' +
+    '<span class="layui-badge-rim"><a href="/index?s={{d.s}}&tags={{item.id}}&search=1" target="_blank">{{item.dict_value}} ({{item.cnt}})</a></span>' +
     '{{# });  }}' +
     '</div>' +
     '</div>' +

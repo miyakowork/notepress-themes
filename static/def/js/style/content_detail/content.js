@@ -17,7 +17,7 @@ layui.define(['laytpl', 'timeago', 'laypage', 'affixside'], function (exports) {
 
         '       {{# if(d.articlePageStyle === "-1"){ }}' +
         '<div class="layui-col-md3">' +
-        affixside.tplStr() +
+        affixside.tplStrLess() +
         '</div>' +
         '       {{# } }}' +
 
@@ -166,7 +166,7 @@ layui.define(['laytpl', 'timeago', 'laypage', 'affixside'], function (exports) {
 
         '       {{# if(d.articlePageStyle === "1"){ }}' +
         '<div class="layui-col-md3">' +
-        affixside.tplStr() +
+        affixside.tplStrLess() +
         '</div>' +
         '       {{# } }}' +
         '</div>';
