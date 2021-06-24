@@ -40,10 +40,23 @@
     margin-bottom: 30px;
 }
 
+.article-detail .article-content {
+    line-height: 28px;
+}
+
 .article-detail .layui-card-body.article-content {
-    padding: 30px;
+    padding: 30px 20px;
     word-break: break-word;
     overflow: hidden;
+}
+
+.article-detail .layui-card-body.article-content h1,
+.article-detail .layui-card-body.article-content h2,
+.article-detail .layui-card-body.article-content h3,
+.article-detail .layui-card-body.article-content h4,
+.article-detail .layui-card-body.article-content h5,
+.article-detail .layui-card-body.article-content h6 {
+    line-height: 50px;
 }
 
 .article-detail .article-meta {
@@ -191,27 +204,34 @@ blockquote[data-htype] a {
     list-style-type: none !important;
 }
 
-#tocm ul li a.toc-level-1 {
-    padding-left: 5px;
+#tocm ul li a[class^='toc-level-'] {
+    font-weight: bolder;
 }
 
-#tocm ul li a.toc-level-2 {
+#tocm ul li a.toc-level-1 {
     padding-left: 10px;
 }
 
-#tocm ul li a.toc-level-3 {
-    padding-left: 15px;
-}
-
-#tocm ul li a.toc-level-4 {
+#tocm ul li a.toc-level-2 {
     padding-left: 20px;
 }
 
-#tocm ul li a.toc-level-5 {
-    padding-left: 25px;
-}
-
-#tocm ul li a.toc-level-6 {
+#tocm ul li a.toc-level-3 {
     padding-left: 30px;
 }
 
+#tocm ul li a.toc-level-4 {
+    padding-left: 40px;
+}
+
+#tocm ul li a.toc-level-5 {
+    padding-left: 50px;
+}
+
+#tocm ul li a.toc-level-6 {
+    padding-left: 60px;
+}
+
+.editormd-html-preview, .editormd-preview-container {
+    padding: 0 !important;
+}

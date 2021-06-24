@@ -60,6 +60,21 @@
 <script src="/static/def/js/notepress.js"></script>
 <script src="/static/def/plugins/hc-sticky/hc-sticky.min.js"></script>
 <script src="/static/def/plugins/pushbar/pushbar.js"></script>
+<script src="/static/def/plugins/syntaxhighlighter/scripts/XRegExp.js"></script>
+<script src="/static/def/plugins/syntaxhighlighter/scripts/shCore.js"></script>
+<script src="/static/def/plugins/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+<script src="/static/def/plugins/syntaxhighlighter/scripts/shBrushXml.js"></script>
+<script src="/static/def/plugins/syntaxhighlighter/scripts/shBrushCss.js"></script>
+<script src="/static/def/plugins/syntaxhighlighter/scripts/shBrushPerl.js"></script>
+<script src="/static/def/plugins/syntaxhighlighter/scripts/shBrushPython.js"></script>
+<script src="/static/def/plugins/syntaxhighlighter/scripts/shBrushRuby.js"></script>
+<script src="/static/def/plugins/syntaxhighlighter/scripts/shBrushJava.js"></script>
+<script src="/static/def/plugins/syntaxhighlighter/scripts/shBrushPlain.js"></script>
+<script src="/static/def/plugins/syntaxhighlighter/scripts/shBrushVb.js"></script>
+<script src="/static/def/plugins/syntaxhighlighter/scripts/shBrushCSharp.js"></script>
+<script src="/static/def/plugins/syntaxhighlighter/scripts/shBrushCpp.js"></script>
+<script src="/static/def/plugins/syntaxhighlighter/scripts/shBrushPowerShell.js"></script>
+<script src="/static/def/plugins/syntaxhighlighter/scripts/shBrushSql.js"></script>
 <script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/editormd/lib/marked.min.js"></script>
 <script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/editormd/lib/prettify.min.js"></script>
 <script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/editormd/lib/raphael.min.js"></script>
@@ -68,21 +83,6 @@
 <script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/editormd/lib/jquery.flowchart.min.js"></script>
 <script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/editormd/lib/sequence-diagram.min.js"></script>
 <script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/editormd/editormd.min.js"></script>
-<script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/syntaxhighlighter/scripts/XRegExp.js"></script>
-<script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/syntaxhighlighter/scripts/shCore.js"></script>
-<script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/syntaxhighlighter/scripts/shBrushJScript.js"></script>
-<script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/syntaxhighlighter/scripts/shBrushXml.js"></script>
-<script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/syntaxhighlighter/scripts/shBrushCss.js"></script>
-<script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/syntaxhighlighter/scripts/shBrushPerl.js"></script>
-<script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/syntaxhighlighter/scripts/shBrushPython.js"></script>
-<script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/syntaxhighlighter/scripts/shBrushRuby.js"></script>
-<script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/syntaxhighlighter/scripts/shBrushJava.js"></script>
-<script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/syntaxhighlighter/scripts/shBrushPlain.js"></script>
-<script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/syntaxhighlighter/scripts/shBrushVb.js"></script>
-<script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/syntaxhighlighter/scripts/shBrushCSharp.js"></script>
-<script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/syntaxhighlighter/scripts/shBrushCpp.js"></script>
-<script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/syntaxhighlighter/scripts/shBrushPowerShell.js"></script>
-<script th:if="${!#strings.isEmpty(content.mdContent)}" src="/static/def/plugins/syntaxhighlighter/scripts/shBrushSql.js"></script>
 
 <!--suppress JSCheckFunctionSignatures -->
 <script th:inline="javascript">
@@ -115,6 +115,7 @@
             var npsu = [[${npsu}]];
             var tags = [[${tags}]];
             var comments = [[${comments}]];
+            var headers = [[${headers}]];
 
             npfront.miniHeaderNavBtn(layer);
 
@@ -128,6 +129,7 @@
                     cateList: cateList,
                     tagList: tagList,
                     linkList: linkList,
+                    headers: headers,
                     randomContents: randomContents,
                     npsu: npsu,
                     tags: tags,

@@ -22,18 +22,11 @@ var affixSideBar =
 
     '<div class="layui-card" id="info-panel">' +
     '<div class="layui-card-body text-center" style="padding: 20px;">' +
-    '       {{# if(!isRichTxt(d.contentObj)){ }}' +
-    '<p class="nb-theme-color">目录</p>' +
-    '<hr>' +
-    '<div id="tocm"></div>' +
-    '<hr>' +
-    '       {{# } }}' +
-    '       {{# if(isRichTxt(d.contentObj)){ }}' +
     '<a class="no-hover cursor" href="/np-login?redirectUrl=' + btoa(encodeURIComponent(location.href)) + '" target="_blank">' +
     '<img src="{{d.settings.website_logo_small}}" class="layui-circle no-hover animated flipInX" style="width: 150px;height:150px;border: 1px solid #e6e5e5;" alt="{{d.settings.admin_global_nickname}}">' +
     '</a>' +
-    '       {{# } }}' +
-    '<p class="layui-text nbv5-font" style="margin: 10px;color: #F44336;"><i class="fa fa-ravelry"></i>&nbsp;：<b>{{d.settings.admin_global_nickname}}（站长）</b></p>' +
+    '<hr>' +
+    '<p class="layui-text nbv5-font" style="margin: 10px;color: #F44336;"><i class="fa fa-ravelry"></i>（站长）：<b>{{d.settings.admin_global_nickname}}</b></p>' +
     '<hr>' +
     '{{# if(d.npsu != null){}}' +
     '<p>个人中心：<a href="/token/ubs" class="no-hover"><img src="{{d.npsu.avatar}}" style="width: 30px;height: 30px;border: 1px solid #ccc;" class="layui-circle"></a>' +
@@ -114,18 +107,22 @@ var affixSideBarLess =
 
     '<div class="layui-card" id="info-panel">' +
     '<div class="layui-card-body text-center" style="padding: 20px;">' +
-    '       {{# if(!isRichTxt(d.contentObj)){ }}' +
     '<p class="nb-theme-color">目录</p>' +
     '<hr>' +
+    '       {{# if(!isRichTxt(d.contentObj)){ }}' +
     '<div id="tocm"></div>' +
-    '<hr>' +
     '       {{# } }}' +
     '       {{# if(isRichTxt(d.contentObj)){ }}' +
-    '<a class="no-hover cursor" href="/np-login?redirectUrl=' + btoa(encodeURIComponent(location.href)) + '" target="_blank">' +
-    '<img src="{{d.settings.website_logo_small}}" class="layui-circle no-hover animated flipInX" style="width: 150px;height:150px;border: 1px solid #e6e5e5;" alt="{{d.settings.admin_global_nickname}}">' +
-    '</a>' +
+    '{{#  layui.each(d.headers, function(index, item){ }}' +
+    '<div id="tocm">' +
+    '<ul>' +
+    '<li><a href="#{{item.id}}" class="toc-level-{{item.level}}">{{item.title}}</a></li>' +
+    '</ul>' +
+    '</div>' +
+    '{{#  }); }}' +
     '       {{# } }}' +
-    '<p class="layui-text nbv5-font" style="margin: 10px;color: #F44336;"><i class="fa fa-ravelry"></i>&nbsp;：<b>{{d.settings.admin_global_nickname}}（站长）</b></p>' +
+    '<hr>' +
+    '<p class="layui-text nbv5-font" style="margin: 10px;color: #F44336;"><i class="fa fa-ravelry"></i>（站长）：<b>{{d.settings.admin_global_nickname}}</b></p>' +
     '<hr>' +
     '{{# if(d.npsu != null){}}' +
     '<p>个人中心：<a href="/token/ubs" class="no-hover"><img src="{{d.npsu.avatar}}" style="width: 30px;height: 30px;border: 1px solid #ccc;" class="layui-circle"></a>' +
