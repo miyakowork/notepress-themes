@@ -44,7 +44,7 @@ var topArea66 =
     '<div class="layui-col-md4">' +
 
     '{{#if(d.hotPage.total >0 ){}}' +
-    '<div class="layui-row layui-col-space3">' +
+    '<div class="layui-row layui-col-space8">' +
 
     '{{# layui.each(d.hotPage.records,function(index,item){ }}' +
     '{{#if(index < 4 ){}}' +

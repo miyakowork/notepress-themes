@@ -25,9 +25,16 @@ function doGithubLogin() {
     }
 }
 
-layui.use(['form', 'jquery', 'sliderVerify'], function () {
-    var form = layui.form,
-        sliderVerify = layui.sliderVerify;
+function doGiteeLogin() {
+    if (isOpenGiteeLogin) {
+        location.href = "/api/login/gitee";
+    } else {
+        layer.msg("未开放Gitee登录！");
+    }
+}
+
+layui.use(['form', 'jquery'], function () {
+    var form = layui.form;
     window.$ = layui.$;
     form.verify({
         username: function (value) {
@@ -72,21 +79,21 @@ layui.use(['form', 'jquery', 'sliderVerify'], function () {
         data.field.username = data.field.npname;
         data.field.code = data.field.npcode;
         // if (slider.isOk()) {
-            $.post("/user/login", data.field, function (resp) {
-                if (resp.code === 200) {
-                    layer.msg("登录成功！");
-                    setTimeout(function () {
-                        location.href =
-                            resp.url !== null && resp.url !== "" && resp.url !== undefined
-                                ? resp.url : "/";
-                    }, 1000);
-                } else {
-                    layer.msg("登录失败，" + resp.message);
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000)
-                }
-            });
+        $.post("/user/login", data.field, function (resp) {
+            if (resp.code === 200) {
+                layer.msg("登录成功！");
+                setTimeout(function () {
+                    location.href =
+                        resp.url !== null && resp.url !== "" && resp.url !== undefined
+                            ? resp.url : "/";
+                }, 1000);
+            } else {
+                layer.msg("登录失败，" + resp.message);
+                setTimeout(function () {
+                    location.reload();
+                }, 1000)
+            }
+        });
         // } else {
         //     layer.msg("请先通过滑块验证");
         // }

@@ -48,10 +48,10 @@
                         <a class="no-hover cursor" target="_self" id="user-avatar">
                             <img th:src="${npsu.avatar}" class="layui-circle no-hover animated flipInX" style="width: 150px;height:150px;border: 1px solid #e6e5e5;" th:alt="${npsu.nickname}">
                         </a>
-                        <p class="layui-text nbv5-font" style="margin: 10px;color: #F44336;"><i class="fa fa-vcard-o"></i>&nbsp;：<b>[[${npsu.nickname}]]</b></p>
+                        <p class="layui-text nbv5-font" style="margin: 10px;color: #F44336;"><i class="fa fa-ravelry"></i>&nbsp;（站长）：<b>[[${npsu.nickname}]]</b></p>
                         <hr>
                         <b>登录地址/IP</b>： [[${npsu.lastLoginAddr eq null ? '-' : npsu.lastLoginAddr}]]（[[${npsu.lastLoginIp eq null ? '-' : npsu.lastLoginIp}]]）<br/>
-                        <b>登录时间</b>：[[${npsu.lastLoginTime eq null ? '-' : npsu.lastLoginTime}]]<br/>
+                        <b>登录时间</b>：[[${npsu.lastLoginTime eq null ? '-' : #strings.replace(npsu.lastLoginTime,'T',' ')}]]<br/>
                     </div>
                 </div>
 
@@ -98,17 +98,18 @@
                             <p class="layui-text ubs-item"><label><i class="fa fa-user-circle"></i> 昵称：</label><input class="layui-input layui-input-inline" th:value="${npsu.nickname}" name="nickname_" style="height: 28px;width: 50%;"> <a
                                     href="javascript:updateNickname();">修改</a>
                             </p>
-                            <p class="layui-text ubs-item"><label><i class="fa fa-sign-in"></i> 注册日期：</label><i><span th:text="${npsu.gmtCreate}"></span></i></p>
+                            <p class="layui-text ubs-item"><label><i class="fa fa-sign-in"></i> 注册日期：</label><i><span th:text="${#strings.replace(npsu.gmtCreate,'T',' ')}"></span></i></p>
                             <p class="layui-text ubs-item"><label><i class="fa fa-envelope-o"></i> 邮箱：</label><u style="cursor: pointer;" onclick="layer.msg('您的注册邮箱，暂不支持更换！')"><span th:text="${npsu.email}"></span></u></p>
                         </div>
                         <div class="layui-col-md6">
                             <p class="layui-text ubs-item"><label><i class="fa fa-key"></i> 新密码：</label><input class="layui-input layui-input-inline" type="password" name="password_" style="height: 28px;width: 50%;"> <a
                                     href="javascript:updatePwd();">修改</a>
                             </p>
-                            <p class="layui-text ubs-item"><label><i class="fa fa-life-bouy"></i> 硬币：</label><span style="color: #f44336;"> [[${npsu.coin}]] </span><img src="/static/def/img/coin.svg" style="width: 20px;"> <a
-                                    class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"
-                                    href="javascript:getCoin();"><b>充值</b></a> <a href="javascript:sign4Coin();">签到</a>（随机获取1个硬币）</p>
-                            <p class="layui-text ubs-item"><label><i class="fa fa-cubes"></i> <a href="/res">资源站</a></label></p>
+                            <p class="layui-text ubs-item"><label><i class="fa fa-life-bouy"></i> 硬币：</label><span style="color: #f44336;"> [[${npsu.coin}]] </span><img src="/static/def/img/coin.svg" style="width: 20px;">
+                                <a th:if="${isOpenCharge}"
+                                   class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"
+                                   href="javascript:getCoin();"><b>充值</b>／</a><a href="javascript:sign4Coin();">签到</a></p>
+                            <p class="layui-text ubs-item layui-hide"><label><i class="fa fa-cubes"></i> <a href="/res">资源站</a></label></p>
                         </div>
                     </div>
                 </div>

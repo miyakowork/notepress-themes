@@ -137,7 +137,9 @@ layui.define(['laytpl', 'laypage'], function (exports) {
         tpl(note_np).render(obj, function (html) {
             $noteBody.append(html);
             initNoteNpPage(laypage, tpl, rightCard, obj.notePage);
-            resolveShowMd(obj.notePage.records[0]);
+            if (obj.notePage.records[0]) {
+                resolveShowMd(obj.notePage.records[0]);
+            }
             showNote();
             imgView();
         });

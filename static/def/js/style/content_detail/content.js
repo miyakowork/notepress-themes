@@ -24,15 +24,15 @@ layui.define(['laytpl', 'timeago', 'laypage', 'affixside'], function (exports) {
         '<div class="top-title layui-container layui-row">' +
         '       {{# if(d.articlePageStyle === "-1"){ }}' +
         '<div class="layui-hide-xs layui-hide-sm layui-col-md4 layui-col-lg4 layui-show-md-inline-block layui-show-lg-inline-block">' +
-        '<a class="layui-btn layui-btn-normal" href="#comment-list">写评论</a> ' +
+        '<a class="layui-btn layui-btn-normal write-comment" href="#comment-list">写评论</a> ' +
         '<a class="layui-btn layui-btn-primary" onclick="emotion();"><i class="fa fa-thumbs-o-up"></i> 点个赞</a> ' +
         '</div>' +
-        '<h2 class="layui-col-xs12 layui-col-sm12 layui-col-md8 layui-col-lg8 layui-elip">{{d.contentObj.title}}</h2>' +
+        '<h2 class="layui-col-xs12 layui-col-sm12 layui-col-md6 layui-col-lg5 layui-elip">{{d.contentObj.title}}</h2>' +
         '       {{# } }}' +
         '       {{# if(d.articlePageStyle === "1"||d.articlePageStyle === "0"){ }}' +
-        '<h2 class="layui-col-xs12 layui-col-sm12 layui-col-md8 layui-col-lg8 layui-elip">{{d.contentObj.title}}</h2>' +
+        '<h2 class="layui-col-xs12 layui-col-sm12 layui-col-md6 layui-col-lg5 layui-elip">{{d.contentObj.title}}</h2>' +
         '<div class="layui-hide-xs layui-hide-sm layui-col-md4 layui-col-lg4 layui-show-md-inline-block layui-show-lg-inline-block">' +
-        '<a class="layui-btn layui-btn-normal" href="#comment-list">写评论</a> ' +
+        '<a class="layui-btn layui-btn-normal write-comment" href="#comment-list">写评论</a> ' +
         '<a class="layui-btn layui-btn-primary" onclick="emotion();"><i class="fa fa-thumbs-o-up"></i> 点个赞</a> ' +
         '</div>' +
         '       {{# } }}' +
@@ -76,9 +76,11 @@ layui.define(['laytpl', 'timeago', 'laypage', 'affixside'], function (exports) {
         '     <div class="layui-btn layui-btn-danger" onclick="emotion()"><i class="fa fa-thumbs-o-up"></i> 赞 (<span id="u-approve">{{d.contentObj.approveCnt}}</span>)</div>' +
         ' </div>' +
         ' <div class="layui-row layui-mt20">' +
-        '     <blockquote class="layui-elem-quote text-center " style="border: none;">' +
+        '     <blockquote class="layui-elem-quote text-center " style="border: none;background: #F8F8F8;">' +
         '         文章出处：<span class="layui-show-md-inline-block layui-hide nb-theme-color">{{ d.settings.website_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;' +
-        '         文章地址：<span class="layui-show-md-inline-block layui-hide nb-theme-color">{{= window.location.href}}</span>&nbsp;&nbsp;&nbsp;&nbsp;' +
+        '         文章地址：<span class="layui-show-md-inline-block layui-hide nb-theme-color">' +
+        '{{= window.location.protocol+"//"+window.location.hostname+":"+((window.location.port==80||window.location.port==443)?"":window.location.port)+window.location.pathname}}' +
+        '</span>&nbsp;&nbsp;&nbsp;&nbsp;' +
         '         <span>转载注明下哦！o(≧v≦)o~~</span>' +
         '     </blockquote>' +
         ' </div>' +
@@ -155,7 +157,7 @@ layui.define(['laytpl', 'timeago', 'laypage', 'affixside'], function (exports) {
         '</div>' +
 
         '</div>' +
-        '<div class="row layui-container">' +
+        '<div class="row layui-container" style="width: 100% !important;">' +
         '       {{# if(d.comments.total>0){ }}' +
         '     <p id="comment-page"></p>' +
         '       {{# } }}' +
@@ -196,9 +198,29 @@ layui.define(['laytpl', 'timeago', 'laypage', 'affixside'], function (exports) {
             commentPage(laypage, obj.comments, obj.contentObj.id, tpl, timeago);
             imgView();
         });
-        if (!isRichTxt(obj.contentObj)) {
-            openPanel();
-        }
+
+
+        $("body").on("click", "a[class^='toc-level-'],a.write-comment", function () {
+            if (!window.isOpenPanel) {
+                openPanel();
+            }
+            var $this = $(this);
+            var title = $this.text();
+            var $1 = $("a[name='" + title + "']");
+            if ($1 && $1.length === 1) {
+                var offset = $1.offset();
+                $("html,body").animate({scrollTop: (offset.top - 90) + "px"}, 500);
+            } else {
+                var attr = $this.attr("href");
+                var id = attr.substring(1);
+                var $2 = $("#" + id);
+                if ($2 && $2.length === 1) {
+                    var offset2 = $2.offset();
+                    $("html,body").animate({scrollTop: (offset2.top - 60) + "px"}, 500);
+                }
+            }
+
+        });
     });
 
 });
@@ -216,6 +238,7 @@ function openPanel() {
     $(".article-detail .layui-card-body.article-content").css("height", "auto");
     $(".article-detail .layui-card-body.article-content").css("max-height", '');
     $(".hide-article-box").hide();
+    window.isOpenPanel = true;
 }
 
 

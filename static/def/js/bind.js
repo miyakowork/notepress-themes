@@ -25,6 +25,14 @@ function doGithubLogin() {
     }
 }
 
+function doGiteeLogin() {
+    if (isOpenGithubLogin) {
+        location.href = "/api/login/gitee";
+    } else {
+        layer.msg("未开放Gitee登录！");
+    }
+}
+
 layui.use(['form', 'jquery', 'sliderVerify'], function () {
     var form = layui.form,
         sliderVerify = layui.sliderVerify;
